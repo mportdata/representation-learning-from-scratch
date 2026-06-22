@@ -1,35 +1,38 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from loss_function import mse
-from observations import x, y
-from plots import loss_landscape, plot_linear_regression
+from course_utils.loss_function import mse
+from course_utils.plots import loss_landscape, plot_linear_regression
 
 
-# 1. Possible values for slope (m) and intercept (b)
+# 1. Initialize observed data
+x = np.array([1, 2, 3, 4, 5], dtype=float)
+y = np.array([2, 4, 5, 4, 5], dtype=float)
+
+# 2. Possible values for slope (m) and intercept (b)
 m_values = np.linspace(-5, 5, 100)
 b_values = np.linspace(-5, 5, 100)
 
-# 2.Visualize the loss landscape
+# 3.Visualize the loss landscape
 fig, ax = loss_landscape(x, y, m_values, b_values, mse)
 
-# 3. Set parameters for gradient descent
+# 4. Set parameters for gradient descent
 #learning_rate = 0.1
 learning_rate = 0.01
 #epochs = 100
 #epochs = 1000
 epochs = 10000
 
-# 4. Initial values for slope (m) and intercept (b)
+# 5. Initial values for slope (m) and intercept (b)
 m = -4.0
 b = -4.0
 
-# 5. Store the history of m, b, and loss for visualization
+# 6. Store the history of m, b, and loss for visualization
 m_history = []
 b_history = []
 loss_history = []
 
-# 10. Perform gradient descent
+# 7. Perform gradient descent
 n = len(x)
 
 for epoch in range(epochs):
@@ -50,17 +53,17 @@ for epoch in range(epochs):
     m -= learning_rate * m_gradient
     b -= learning_rate * b_gradient
 
-# 6. Use the final values of m and b to compute the predictions and final loss
+# 8. Use the final values of m and b to compute the predictions and final loss
 y_pred_final = m * x + b
 final_loss = mse(y, y_pred_final)
 
-# 7. Print the final values of m, b, and loss
+# 9. Print the final values of m, b, and loss
 print(f"Final slope (m): {m}")
 print(f"Final intercept (b): {b}")
 print(f"Final loss: {final_loss}")
 print(f"Predictions: {y_pred_final}")
 
-# 8. Mark the gradient descent path on the loss landscape
+# 10. Mark the gradient descent path on the loss landscape
 ax.plot(
     m_history,
     b_history,
@@ -93,5 +96,5 @@ ax.legend()
 
 plt.show()
 
-# 9. Plot the results
+# 11. Plot the results
 plot_linear_regression(x, y, y_pred_final, m, b)
