@@ -4,33 +4,41 @@ import matplotlib.pyplot as plt
 from course_utils.loss_function import mse
 from course_utils.plots import loss_landscape, mark_gradient_descent_path, plot_linear_regression
 
-from observed_data import x, y
+from observed_data import ideal_seq, noisy_seq
 
 
-# 1. Possible values for slope (m) and intercept (b)
+# 1. Select the sequence to use for regression
+#seq = ideal_seq  # [1, 2, 3, 4, 5]
+seq = noisy_seq  # [0, 3, 2, 5, 1]
+
+# 2. Create input (x) and target (y) pairs where each x is mapped to the next value in the sequence
+x = seq[:-1]
+y = seq[1:]
+
+# 3. Possible values for slope (m) and intercept (b)
 m_values = np.linspace(-5, 5, 100)
 b_values = np.linspace(-5, 5, 100)
 
-# 2.Visualize the loss landscape
+# 4. Visualize the loss landscape
 fig, ax = loss_landscape(x, y, m_values, b_values, mse)
 
-# 3. Set parameters for gradient descent
+# 5. Set parameters for gradient descent
 #learning_rate = 0.1
 learning_rate = 0.01
 #epochs = 100
 #epochs = 1000
 epochs = 10000
 
-# 4. Initial values for slope (m) and intercept (b)
+# 6. Initial values for slope (m) and intercept (b)
 m = -4.0
 b = -4.0
 
-# 5. Store the history of m, b, and loss for visualization
+# 7. Store the history of m, b, and loss for visualization
 m_history = []
 b_history = []
 loss_history = []
 
-# 6. Perform gradient descent
+# 8. Perform gradient descent
 n = len(x)
 
 for epoch in range(epochs):
@@ -51,20 +59,20 @@ for epoch in range(epochs):
     m -= learning_rate * m_gradient
     b -= learning_rate * b_gradient
 
-# 7. Use the final values of m and b to compute the predictions and final loss
+# 9. Use the final values of m and b to compute the predictions and final loss
 y_pred_final = m * x + b
 final_loss = mse(y, y_pred_final)
 
-# 8. Print the final values of m, b, and loss
+# 10. Print the final values of m, b, and loss
 print(f"Final slope (m): {m}")
 print(f"Final intercept (b): {b}")
 print(f"Final loss: {final_loss}")
 print(f"Predictions: {y_pred_final}")
 
-# 9. Mark the gradient descent path on the loss landscape
+# 11. Mark the gradient descent path on the loss landscape
 mark_gradient_descent_path(ax, m_history, b_history, loss_history)
 
 plt.show()
 
-# 10. Plot the results
+# 12. Plot the results
 plot_linear_regression(x, y, y_pred_final, m, b)

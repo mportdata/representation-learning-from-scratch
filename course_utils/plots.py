@@ -43,6 +43,48 @@ def loss_landscape(
 
     return fig, ax
 
+def mark_solution_point(ax, m, b, loss):
+    ax.scatter(
+        m, 
+        b, 
+        loss, 
+        color="red", 
+        s=100, 
+        label=f"Solution: m={m:.2f}, b={b:.2f}, loss={loss:.2f}"
+    )
+    ax.legend()
+
+def mark_gradient_descent_path(ax, m_history, b_history, loss_history):
+    ax.plot(
+        m_history,
+        b_history,
+        loss_history,
+        marker="o",
+        color="black",
+        label="Gradient descent path"
+    )
+
+    ax.scatter(
+        m_history[0],
+        b_history[0],
+        loss_history[0],
+        s=100,
+        color="black",
+        label="Start"
+    )
+
+    ax.scatter(
+        m_history[-1],
+        b_history[-1],
+        loss_history[-1],
+        s=100,
+        marker="x",
+        color="red",
+        label="End"
+    )
+
+    ax.legend()
+
 def plot_linear_regression(x, y, predictions, m, b):
     plt.scatter(x, y, label="Observed data")
     plt.plot(x, predictions, color="red", label=f"Fitted line: y = {m:.2f}x + {b:.2f}")
@@ -50,4 +92,34 @@ def plot_linear_regression(x, y, predictions, m, b):
     plt.ylabel("y")
     plt.title("Linear Regression using Normal Equation")
     plt.legend()
+    plt.show()
+
+def plot_seq_with_forecast(seq, forecast_sequence):
+    forecast_sequence = [seq[-1]] + forecast_sequence  # Include the last observed value for continuity
+    plt.figure(figsize=(8, 5))
+
+    # Plot the observed sequence
+    plt.plot(
+        range(len(seq)),
+        seq,
+        marker="o",
+        label="Observed Sequence"
+    )
+
+    # Plot the forecasted sequence
+    plt.plot(
+        range(len(seq) - 1, len(seq) + 2),
+        forecast_sequence,
+        marker="o",
+        linestyle="--",
+        label="Forecast"
+    )
+
+    # Add labels, title, and legend
+    plt.xlabel("Time Step")
+    plt.ylabel("Value")
+    plt.title("Forecast")
+    plt.legend()
+    plt.grid(True)
+
     plt.show()
