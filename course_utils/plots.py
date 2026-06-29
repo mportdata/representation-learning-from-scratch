@@ -85,6 +85,7 @@ def mark_gradient_descent_path(ax, m_history, b_history, loss_history):
     )
 
     ax.legend()
+    plt.show()
 
 def _split_input_variables(x, y):
     x = np.asarray(x)
